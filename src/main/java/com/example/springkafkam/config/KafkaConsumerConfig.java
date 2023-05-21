@@ -25,7 +25,6 @@ public class KafkaConsumerConfig {
 
   @Bean
   public ConsumerFactory<String, String> consumerFactory() {
-    System.out.println("building consumer factory");
     Map<String, Object> props = new HashMap<>();
     props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
     props.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group"); // <-- groupid
@@ -34,11 +33,8 @@ public class KafkaConsumerConfig {
     return new DefaultKafkaConsumerFactory<>(props);
   }
 
-
-
   @Bean
   public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
-    System.out.println("building kafka listener container factory");
     ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConsumerFactory(consumerFactory());
     return factory;
@@ -46,7 +42,6 @@ public class KafkaConsumerConfig {
 
   @Bean
   public KafkaMessageListenerContainer kafkaMessageListenerContainer(){
-    System.out.println("building kafka message listener container");
     ContainerProperties cp = new ContainerProperties("test"); // <-- topics
     cp.setMessageListener(customMessageListener);
     return new KafkaMessageListenerContainer(consumerFactory(), cp);
